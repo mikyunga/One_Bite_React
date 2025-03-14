@@ -1,0 +1,15 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.App {
+  width: 400px;
+}
+.App > section {
+  background-color: rgba(245, 245, 245);
+  border: 1px solid rga(240, 240, 240);
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 10px;
+}
