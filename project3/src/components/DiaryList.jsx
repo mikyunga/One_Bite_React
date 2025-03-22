@@ -8,7 +8,7 @@ const DiaryList = ({ data }) => {
   const nav = useNavigate();
   // 초기값 latest
   const [sortType, setSortType] = useState('latest');
-  // select를 onChange할 때 마다, setSortType을 통해 sortType의 값이 변경됨
+  // select를 onChange할 때 마다, setSortType을 통해 sortType의 값이 선택한 select option의 value값으로 변경됨
   const onChangeSortType = (e) => {
     setSortType(e.target.value);
   };
