@@ -8,6 +8,7 @@ body {
   margin: 0px;
   width: 100%;
   background-color: rgb(246, 246, 246);
+  display: flex;
 }
 
 /* React 앱에서는 모든 컴포넌트가 index.html의 <div id="root"> 내부에 렌더링됨 */
