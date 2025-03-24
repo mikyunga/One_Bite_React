@@ -24,7 +24,7 @@ const New = () => {
       <Header
         title={'새 일기쓰기'}
         // -1하면 뒤로가기가 됨 useNavigate를 활용하여 클릭 시 뒤로가기.
-        leftChild={<Button onClick={() => nav(-1)} text={'뒤로 가기'} />}
+        leftChild={<Button onClick={() => nav(-1)} text={'< 뒤로 가기'} />}
       />
       <Editor onSubmit={onSubmit} />
     </div>

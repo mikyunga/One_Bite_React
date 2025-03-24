@@ -1,7 +1,7 @@
 import './Editor.css';
 import EmotionItem from './EmotionItem';
 import Button from './button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // 배열 안에 객체를 만들어 준 뒤에 랜더링 시키는 방식
@@ -46,7 +46,7 @@ const getStringDate = (targetDate) => {
   return `${year}-${month}-${date}`;
 };
 
-const Editor = ({ onSubmit }) => {
+const Editor = ({ initData, onSubmit }) => {
   const [input, setInput] = useState({
     createdDate: new Date(),
     emotionId: 3,
@@ -54,6 +54,17 @@ const Editor = ({ onSubmit }) => {
   });
 
   const nav = useNavigate();
+
+  // initData가 들어오면, 기본값을 initData로 설정
+  useEffect(() => {
+    if (initData) {
+      setInput({
+        ...initData,
+        createdDate: new Date(Number(initData.createdDate)),
+      });
+    }
+  }, [initData]);
+
   const onChangeInput = (e) => {
     let name = e.target.name;
     let value = e.target.value;
