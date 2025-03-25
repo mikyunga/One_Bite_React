@@ -3,48 +3,8 @@ import EmotionItem from './EmotionItem';
 import Button from './button';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-// 배열 안에 객체를 만들어 준 뒤에 랜더링 시키는 방식
-const emotionList = [
-  {
-    emotionId: 1,
-    emotionName: '완전 좋음',
-  },
-  {
-    emotionId: 2,
-    emotionName: '좋음',
-  },
-  {
-    emotionId: 3,
-    emotionName: '보통',
-  },
-  {
-    emotionId: 4,
-    emotionName: '나쁨',
-  },
-  {
-    emotionId: 5,
-    emotionName: '완전 나쁨',
-  },
-];
-
-const getStringDate = (targetDate) => {
-  // YYYY-MM-DD 형태
-  let year = targetDate.getFullYear();
-  let month = targetDate.getMonth() + 1;
-  let date = targetDate.getDate();
-
-  // 문자열이니까 1의자리는 01로 출력이 안되므로 강제로 형태 맞춤
-  if (month < 10) {
-    month = `0${month}`;
-  }
-
-  if (date < 10) {
-    date = `0${date}`;
-  }
-
-  return `${year}-${month}-${date}`;
-};
+import { emotionList } from '../util/constants';
+import { getStringDate } from '../util/get-stringed-date';
 
 const Editor = ({ initData, onSubmit }) => {
   const [input, setInput] = useState({
