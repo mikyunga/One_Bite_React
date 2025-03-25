@@ -1,5 +1,5 @@
 import './App.css';
-import { useReducer, useRef, createContext, useEffect } from 'react';
+import { useReducer, useRef, createContext, useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Diary from './pages/Diary';
@@ -42,6 +42,9 @@ export const DiaryStateContext = createContext();
 export const DiaryDispatchContext = createContext();
 
 function App() {
+  // 로딩중임을 나타낼 애 (로딩이 아직 덜 된 경우에 false로 값변경)
+  const [isLoading, setIsLoading] = useState(true);
+
   // 데이터 스테이트 보관, 모든 페이지에서 이용하기 위하여 모든 컴퍼넌트의 부모인 App에 위치
   // 여기의 data가 모든 일기 데이터의 배열임
   // data : 현재 상태의 값(현재 일기 목록 상태)
@@ -57,6 +60,7 @@ function App() {
   useEffect(() => {
     const storedData = localStorage.getItem('diary');
     if (!storedData) {
+      setIsLoading(false);
       return;
       // undefined면 즉시종료
     }
@@ -64,7 +68,8 @@ function App() {
 
     // parsedData가 배열인지 아닌지
     if (!Array.isArray(parsedData)) {
-      // 배열이면 강제 종료
+      setIsLoading(false);
+      // 배열이면 강제 종료 (데이터 로딩이 끝까지 안 된 경우)
       return;
     }
     // 로컬스토리지에서 불러온 기존 일기들을 기준으로 시작할 id값을 구하여 저장
@@ -84,6 +89,7 @@ function App() {
       type: 'INIT',
       data: parsedData,
     });
+    setIsLoading(false);
   }, []);
 
   //새로운 일기 추가 (data에)
@@ -120,6 +126,11 @@ function App() {
       id,
     });
   };
+
+  // 데이터 로딩중인 경우에는 페이지를 반환하지 않고 데이터 로딩중이란 문구를 반환
+  if (isLoading) {
+    return <div>데이터 로딩중입니다...</div>;
+  }
 
   return (
     <>
