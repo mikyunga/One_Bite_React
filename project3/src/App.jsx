@@ -1,5 +1,5 @@
 import './App.css';
-import { useReducer, useRef, createContext } from 'react';
+import { useReducer, useRef, createContext, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Diary from './pages/Diary';
@@ -7,31 +7,14 @@ import New from './pages/New';
 import Edit from './pages/Edit';
 import Notfound from './pages/Notfound';
 
-const mockData = [
-  {
-    id: 1,
-    createdDate: new Date('2025-03-22').getTime(),
-    emotionId: 1,
-    content: '1번 일기 내용',
-  },
-  {
-    id: 2,
-    createdDate: new Date('2025-03-21').getTime(),
-    emotionId: 2,
-    content: '2번 일기 내용',
-  },
-  {
-    id: 3,
-    createdDate: new Date('2025-02-08').getTime(),
-    emotionId: 3,
-    content: '3번 일기 내용',
-  },
-];
-
 function reducer(state, action) {
   let nextState;
 
   switch (action.type) {
+    case 'INIT': {
+      // dispatch가 넘긴 data값 (parsedData)
+      return action.data;
+    }
     // 방금 생성된 일기(action.data)를 배열 맨 앞에 추가하여 반환
     case 'CREATE': {
       nextState = [action.data, ...state];
@@ -68,15 +51,47 @@ function App() {
   // data: 필요한 추가 정보
 
   // reducer : 상태를 어떻게 바꿀지 정의한 함수
-  // mockData : 상태의 초기값
-  const [data, dispatch] = useReducer(reducer, mockData);
-  const idRef = useRef(3);
+  const [data, dispatch] = useReducer(reducer, []);
+  const idRef = useRef(0);
+
+  useEffect(() => {
+    const storedData = localStorage.getItem('diary');
+    if (!storedData) {
+      return;
+      // undefined면 즉시종료
+    }
+    const parsedData = JSON.parse(storedData);
+
+    // parsedData가 배열인지 아닌지
+    if (!Array.isArray(parsedData)) {
+      // 배열이면 강제 종료
+      return;
+    }
+    // 로컬스토리지에서 불러온 기존 일기들을 기준으로 시작할 id값을 구하여 저장
+    // ID값 중 가장 높은 값이 maxId에 저장됨
+    let maxId = 0;
+    // 모든 item들을 순회하며
+    parsedData.forEach((item) => {
+      if (Number(item.id) > maxId) {
+        maxId = Number(item.id);
+      }
+    });
+
+    idRef.current = maxId + 1;
+
+    // parsedData값을 dataState의 초기값이 되도록 전달
+    dispatch({
+      type: 'INIT',
+      data: parsedData,
+    });
+  }, []);
 
   //새로운 일기 추가 (data에)
   const onCreate = (createdDate, emotionId, content) => {
     dispatch({
       type: 'CREATE',
       data: {
+        // 새로운 일기 하나 생성할 때마다 자동으로 id 증가
         id: idRef.current++,
         createdDate,
         emotionId,
