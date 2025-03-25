@@ -29,19 +29,29 @@ const mockData = [
 ];
 
 function reducer(state, action) {
+  let nextState;
+
   switch (action.type) {
     // 방금 생성된 일기(action.data)를 배열 맨 앞에 추가하여 반환
-    case 'CREATE':
-      return [action.data, ...state];
-    case 'UPDATE':
-      return state.map((item) =>
+    case 'CREATE': {
+      nextState = [action.data, ...state];
+      break;
+    }
+    case 'UPDATE': {
+      nextState = state.map((item) =>
         String(item.id) === String(action.data.id) ? action.data : item
       );
-    case 'DELETE':
-      return state.filter((item) => String(item.id) !== String(action.id));
+      break;
+    }
+    case 'DELETE': {
+      nextState = state.filter((item) => String(item.id) !== String(action.id));
+      break;
+    }
     default:
       return state;
   }
+  localStorage.setItem('diary', JSON.stringify(nextState));
+  return nextState;
 }
 
 export const DiaryStateContext = createContext();
