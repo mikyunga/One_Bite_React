@@ -1,5 +1,5 @@
 import Header from '../components/Header';
-import Button from '../components/button';
+import Button from '../components/Button';
 import Editor from '../components/Editor';
 import { useContext } from 'react';
 import { DiaryDispatchContext, DiaryStateContext } from '../App';
@@ -16,7 +16,7 @@ const Edit = () => {
 
   // 확인 누르면 true, 취소 누르면 false 값이 됨
   const onClickDelete = () => {
-    if (window.confirm('일기를 정말 삭제할까요?')) {
+    if (window.confirm('일기를 정말 삭제할까요m?')) {
       onDelete(params.id);
       nav('/', { replace: true });
     }

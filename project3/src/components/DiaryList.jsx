@@ -1,5 +1,5 @@
 import './DiaryList.css';
-import Button from './button';
+import Button from './Button';
 import DiaryItem from './DiaryItem';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';

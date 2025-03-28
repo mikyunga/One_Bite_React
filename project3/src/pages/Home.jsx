@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { DiaryStateContext } from '../App';
 
 import Header from '../components/Header';
-import Button from '../components/button';
+import Button from '../components/Button';
 import DiaryList from '../components/DiaryList';
 
 // 컴퍼넌트 내부에 선언해도 문제가 없음! 가독성과 불필요한 함수의 재생성을 방지하기 위해 외부에 선언한 것
